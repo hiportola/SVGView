@@ -32,7 +32,8 @@ open class SVGConstants {
         "font-weight",
         "text-anchor",
         "visibility",
-        "display"
+        "display",
+        "data-name",
     ]
 
 }

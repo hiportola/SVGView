@@ -13,6 +13,7 @@ class SVGShapeParser: SVGBaseElementParser {
         guard let locus = parseLocus(context: context) else { return nil }
         locus.fill = SVGHelper.parseFill(context.styles, context.index)
         locus.stroke = SVGHelper.parseStroke(context.styles, index: context.index)
+        locus.dataName = context.styles["data-name"]
         return locus
     }
 

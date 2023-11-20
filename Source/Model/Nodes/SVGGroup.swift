@@ -25,6 +25,18 @@ public class SVGGroup: SVGNode, ObservableObject {
         }
         return .none
     }
+    
+    override public func getNode(byDataName name: String) -> SVGNode? {
+        if let node = super.getNode(byDataName: name) {
+            return node
+        }
+        for node in contents {
+            if let node = node.getNode(byDataName: name) {
+                return node
+            }
+        }
+        return getNode(byId: name)
+    }
 
     override func serialize(_ serializer: Serializer) {
         super.serialize(serializer)

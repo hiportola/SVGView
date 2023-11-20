@@ -9,16 +9,19 @@ public class SVGNode: SerializableElement {
     @Published public var clip: SVGNode?
     @Published public var mask: SVGNode?
     @Published public var id: String?
+    @Published public var dataName: String?
 
     var gestures = [AnyGesture<()>]()
 
-    public init(transform: CGAffineTransform = .identity, opaque: Bool = true, opacity: Double = 1, clip: SVGNode? = nil, mask: SVGNode? = nil, id: String? = nil) {
+    public init(transform: CGAffineTransform = .identity, opaque: Bool = true, opacity: Double = 1, clip: SVGNode? = nil, mask: SVGNode? = nil, 
+                id: String? = nil, dataName: String? = nil) {
         self.transform = transform
         self.opaque = opaque
         self.opacity = opacity
         self.clip = clip
         self.mask = mask
         self.id = id
+        self.dataName = dataName
     }
 
     public func bounds() -> CGRect {
@@ -32,6 +35,10 @@ public class SVGNode: SerializableElement {
 
     public func getNode(byId id: String) -> SVGNode? {
         return self.id == id ? self : .none
+    }
+    
+    public func getNode(byDataName dataName: String) -> SVGNode? {
+        return self.dataName == dataName ? self : getNode(byId: dataName)
     }
 
     public func onTapGesture(_ count: Int = 1, tapClosure: @escaping ()->()) {
