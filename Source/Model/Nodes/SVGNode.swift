@@ -3,7 +3,7 @@ import Combine
 
 public class SVGNode: SerializableElement {
 
-    @Published public var transform: CGAffineTransform = CGAffineTransform.identity
+    public var transform: CGAffineTransform = CGAffineTransform.identity
     @Published public var opaque: Bool
     @Published public var opacity: Double
     @Published public var clip: SVGNode?

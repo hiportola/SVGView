@@ -95,7 +95,9 @@ class SVGViewportParser: SVGGroupParser {
 class SVGGroupParser: SVGBaseElementParser {
 
     override func doParse(context: SVGNodeContext, delegate: (XMLElement) -> SVGNode?) -> SVGNode? {
-        return SVGGroup(contents: parseContents(context: context, delegate: delegate))
+        let group = SVGGroup(contents: parseContents(context: context, delegate: delegate))
+        group.dataName = context.styles["data-name"]
+        return group
     }
 
     func parseContents(context: SVGNodeContext, delegate: (XMLElement) -> SVGNode?) -> [SVGNode] {
