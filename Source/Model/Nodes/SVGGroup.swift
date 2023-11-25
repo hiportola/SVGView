@@ -46,6 +46,13 @@ public class SVGGroup: SVGNode, ObservableObject {
     public func contentView() -> some View {
         SVGGroupView(model: self)
     }
+    
+    public override func copy(with zone: NSZone? = nil) -> Any {
+        let copy = SVGGroup(contents: self.contents,
+                            transform: self.transform, opaque: self.opaque, opacity: self.opacity,
+                            clip: self.clip as? SVGUserSpaceNode, mask: self.mask)
+        return copy
+    }
 }
 
 struct SVGGroupView: View {

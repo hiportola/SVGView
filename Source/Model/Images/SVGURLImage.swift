@@ -26,6 +26,10 @@ public class SVGURLImage: SVGImage, ObservableObject {
     public func contentView() -> some View {
         SVGUrlImageView(model: self)
     }
+    
+    public override func copy(with zone: NSZone? = nil) -> Any {
+        return SVGURLImage(x: x, y: y, width: width, height: height, src: src, data: data)
+    }
 }
 
 struct SVGUrlImageView: View {

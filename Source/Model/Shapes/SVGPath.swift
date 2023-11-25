@@ -29,6 +29,10 @@ public class SVGPath: SVGShape, ObservableObject {
     public func contentView() -> some View {
         SVGPathView(model: self)
     }
+    
+    public override func copy(with zone: NSZone? = nil) -> Any {
+        return SVGPath(segments: segments, fillRule: fillRule)
+    }
 }
 
 struct SVGPathView: View {

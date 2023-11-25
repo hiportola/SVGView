@@ -48,6 +48,11 @@ public class SVGPolygon: SVGShape, ObservableObject {
     public func contentView() -> some View {
         SVGPolygonView(model: self)
     }
+    
+    public override func copy(with zone: NSZone? = nil) -> Any {
+        let copy = SVGPolygon(points: points)
+        return copy
+    }
 }
 
 struct SVGPolygonView: View {

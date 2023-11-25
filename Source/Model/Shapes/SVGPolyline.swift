@@ -48,6 +48,11 @@ public class SVGPolyline: SVGShape, ObservableObject {
     public func contentView() -> some View {
         SVGPolylineView(model: self)
     }
+    
+    public override func copy(with zone: NSZone? = nil) -> Any {
+        let copy = SVGPolyline(points:points)
+        return copy
+    }
 }
 
 struct SVGPolylineView: View {

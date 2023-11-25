@@ -25,6 +25,9 @@ public class SVGCircle: SVGShape, ObservableObject {
     public func contentView() -> some View {
         SVGCircleView(model: self)
     }
+    public override func copy(with zone: NSZone? = nil) -> Any {
+        return SVGCircle(cx: cx, cy: cy, r: r)
+    }
 }
 
 struct SVGCircleView: View {

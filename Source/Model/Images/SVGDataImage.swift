@@ -25,6 +25,10 @@ public class SVGDataImage: SVGImage, ObservableObject {
     public func contentView() -> some View {
         SVGDataImageView(model: self)
     }
+    
+    public override func copy(with zone: NSZone? = nil) -> Any {
+        return SVGDataImage(data: data)
+    }
 }
 
 struct SVGDataImageView: View {

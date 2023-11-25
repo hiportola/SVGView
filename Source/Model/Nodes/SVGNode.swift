@@ -1,7 +1,7 @@
 import SwiftUI
 import Combine
 
-public class SVGNode: SerializableElement {
+public class SVGNode: SerializableElement, NSCopying {
 
     public var transform: CGAffineTransform = CGAffineTransform.identity
     @Published public var opaque: Bool
@@ -69,6 +69,11 @@ public class SVGNode: SerializableElement {
         return String(describing: type(of: self))
     }
 
+    public func copy(with zone: NSZone? = nil) -> Any {
+        let copy = SVGNode(transform: self.transform, opaque: self.opaque, opacity: self.opacity,
+                           clip: self.clip, mask: self.mask, id: self.id, dataName: self.dataName)
+        return copy
+    }
 }
 
 extension SVGNode {

@@ -27,6 +27,10 @@ public class SVGEllipse: SVGShape, ObservableObject {
     public func contentView() -> some View {
         SVGEllipseView(model: self)
     }
+    
+    public override func copy(with zone: NSZone? = nil) -> Any {
+        return SVGEllipse(cx: cx, cy: cy, rx: rx, ry: ry)
+    }
 }
 
 struct SVGEllipseView: View {

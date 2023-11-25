@@ -28,6 +28,10 @@ public class SVGText: SVGNode, ObservableObject {
     public func contentView() -> some View {
         SVGTextView(model: self)
     }
+    
+    public override func copy(with zone: NSZone? = nil) -> Any {
+        return SVGText(text: text, font: font, fill: fill, stroke: stroke, textAnchor: textAnchor)
+    }
 }
 
 struct SVGTextView: View {

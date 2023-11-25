@@ -39,6 +39,11 @@ public class SVGRect: SVGShape, ObservableObject {
     public func contentView() -> some View {
         SVGRectView(model: self)
     }
+    
+    public override func copy(with zone: NSZone? = nil) -> Any {
+        let copy = SVGRect(x: x, y: y, width: width, height: height, rx: rx, ry: ry)
+        return copy
+    }
 }
 
 struct SVGRectView: View {

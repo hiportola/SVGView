@@ -31,6 +31,10 @@ public class SVGUserSpaceNode: SVGNode {
     public func contentView() -> some View {
         SVGUserSpaceNodeView(model: self)
     }
+    
+    public override func copy(with zone: NSZone? = nil) -> Any {
+        return SVGUserSpaceNode(node: node, userSpace: userSpace)
+    }
 }
 
 struct SVGUserSpaceNodeView: View {
