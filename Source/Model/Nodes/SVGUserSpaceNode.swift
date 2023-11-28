@@ -10,9 +10,11 @@ import SwiftUI
 public class SVGUserSpaceNode: SVGNode {
 
     public enum UserSpace: String, SerializableEnum {
-
         case objectBoundingBox
         case userSpaceOnUse
+        
+        public func isDefault() -> Bool { false }
+        public func serialize() -> String { "" }
     }
 
     public let node: SVGNode
@@ -23,7 +25,7 @@ public class SVGUserSpaceNode: SVGNode {
         self.userSpace = userSpace
     }
     
-    override func serialize(_ serializer: Serializer) {
+    override public func serialize(_ serializer: Serializer) {
         serializer.add("userSpace", userSpace)
         super.serialize(serializer)
     }

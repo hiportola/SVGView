@@ -8,21 +8,49 @@
 import Foundation
 import CoreGraphics
 
-class Serializer {
+public class Serializer {
 
-    static func serialize(_ serializable: SerializableBlock) -> String {
+    public static func serialize(_ serializable: SerializableBlock) -> String {
         return serialize(serializable, level: 0) + "\n"
     }
 
-    private static func serialize(_ serializable: SerializableBlock, level: Int) -> String {
+    public static func serialize(_ serializable: SerializableBlock, level: Int) -> String {
         let serializer = Serializer(level: level)
         var prefix = ""
+        var elId = ""
         if let element = serializable as? SerializableElement {
-            prefix = element.typeName + " "
+            prefix = typeNameForElement(element)
+            elId = element.id ?? ""
             serializer.add("id", element.id)
         }
         serializable.serialize(serializer)
-        return prefix + serializer.toString()
+        if serializer.children.count > 0 {
+            return "<" + prefix + " id=\"\(elId)\">" + serializer.toString() + "</" + prefix + ">"
+        } else {
+            return "<" + prefix + " id=\"\(elId)\"" + serializer.toString() + "/>"
+        }
+    }
+    
+    private static func typeNameForElement(_ se:SerializableElement) -> String {
+        switch se {
+        case is SVGViewport: return "viewport"
+        case is SVGGroup: return "g"
+        case is SVGRect: return  "rect"
+        case is SVGText: return "text"
+        case is SVGDataImage: return "unsupported"
+        case is SVGURLImage: return "unsupported"
+        case is SVGEllipse: return "ellipse"
+        case is SVGLine: return "line"
+        case is SVGPolyline: return "polyline"
+        case is SVGPath: return "path"
+        case is SVGCircle: return "circle"
+        case is SVGUserSpaceNode: return "unsupported"
+        case is SVGPolygon: return "polygon"
+        case is SVGImage: return "unsupported"
+        case is SVGShape: return "unsupported"
+        default: return "unsupported"
+        }
+        return ""
     }
 
     private let level: Int
@@ -30,9 +58,14 @@ class Serializer {
     private var blocks = [String]()
     private var text = ""
     private var complex = false
+    private var children: [SVGNode] = []
 
     private init(level: Int) {
         self.level = level
+    }
+    
+    @discardableResult func addChildren(_ nodes: [SVGNode]) {
+        children = nodes
     }
 
     @discardableResult func add<S: SerializableAtom>(_ key: String, _ value: S?) -> Serializer {
@@ -84,14 +117,19 @@ class Serializer {
 
     private func toString() -> String {
         if complex {
-            return "{" + text + "\n" + indent(level) + "}"
+            return text + "\n" + indent(level)
         }
         let length = blocks.reduce(0) { $0 + $1.count }
         if length > 60 {
             let ind = indent(level + 1)
-            return "{\n\(ind)\(blocks.joined(separator: ",\n\(ind)"))\n\(indent(level))}"
+            return "\(ind)\(blocks.joined(separator: " "))\n\(indent(level))"
         }
-        return "{ " + blocks.joined(separator: ", ") + " }"
+        var str = blocks.joined(separator: " ")
+        //if children.count > 0 { str += ">" }
+        children.forEach { n in
+            str += "\n\(indent(level + 1))\(Serializer.serialize(n))"
+        }
+        return str
     }
 
     private func makeComplex() {
@@ -105,7 +143,7 @@ class Serializer {
     }
 
     private func add(key: String, block: String) {
-        add(block: "\(key): \(block)")
+        add(block: "\(key)=\(block)")
     }
 
     private func add(block: String) {
