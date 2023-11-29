@@ -19,8 +19,11 @@ public class SVGEllipse: SVGShape, ObservableObject {
         CGRect(x: cx - rx, y: cy - ry, width: 2*rx, height: 2*ry)
     }
 
-    override func serialize(_ serializer: Serializer) {
-        serializer.add("cx", cx, 0).add("cy", cy, 0).add("rx", rx, 0).add("ry", ry, 0)
+    override public func serialize(_ serializer: Serializer) {
+        serializer.add("cx", cx.description, "0")
+            .add("cy", cy.description, "0")
+            .add("rx", rx.description, "0")
+            .add("ry", ry.description, "0")
         super.serialize(serializer)
     }
 

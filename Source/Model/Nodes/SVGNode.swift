@@ -56,16 +56,18 @@ public class SVGNode: SerializableElement, NSCopying {
         gestures.removeAll()
     }
 
-    func serialize(_ serializer: Serializer) {
+    public func serialize(_ serializer: Serializer) {
         if !transform.isIdentity {
-            serializer.add("transform", transform)
+            let t = transform
+            let s = "matrix(\(t.a), \(t.b), \(t.c), \(t.d), \(t.tx), \(t.ty))"
+            serializer.add("transform", s)
         }
         serializer.add("opacity", opacity, 1)
         serializer.add("opaque", opaque, true)
         serializer.add("clip", clip).add("mask", mask)
     }
 
-    var typeName: String {
+    public var typeName: String {
         return String(describing: type(of: self))
     }
 

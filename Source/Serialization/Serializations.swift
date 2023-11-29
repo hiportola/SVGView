@@ -18,7 +18,7 @@ extension Bool: SerializableAtom {
 
 extension String: SerializableAtom {
 
-    func serialize() -> String {
+    public func serialize() -> String {
         return "\"\(self.replacingOccurrences(of: "\"", with: "\\\""))\""
     }
 
@@ -26,7 +26,7 @@ extension String: SerializableAtom {
 
 extension CGFloat: SerializableAtom {
 
-    func serialize() -> String {
+    public func serialize() -> String {
         let s = self.description
         return s.hasSuffix(".0") ? String(s[s.startIndex..<s.index(s.endIndex, offsetBy: -2)]) : s
     }
@@ -35,7 +35,7 @@ extension CGFloat: SerializableAtom {
 
 extension Double: SerializableAtom {
 
-    func serialize() -> String {
+    public func serialize() -> String {
         return CGFloat(self).serialize()
     }
 
@@ -43,7 +43,7 @@ extension Double: SerializableAtom {
 
 extension CGAffineTransform: SerializableAtom {
 
-    func serialize() -> String {
+    public func serialize() -> String {
         let formatter = NumberFormatter()
         formatter.minimumFractionDigits = 0
         formatter.maximumFractionDigits = 10
@@ -61,7 +61,7 @@ extension CGAffineTransform: SerializableAtom {
 
 extension CGRect: SerializableBlock {
 
-    func serialize(_ serializer: Serializer) {
+    public func serialize(_ serializer: Serializer) {
         serializer.add("x", self.minX, 0).add("y", self.minY, 0)
         serializer.add("width", self.width, 0).add("height", self.height, 0)
     }
@@ -88,7 +88,7 @@ class CGPointList: SerializableAtom {
     }
 
     func serialize() -> String {
-        return "[\(points.map { p in "\(p.x.serialize()), \(p.y.serialize())" }.joined(separator: ", "))]"
+        return "\"\(points.map { p in "\(p.x.serialize()), \(p.y.serialize())" }.joined(separator: ", "))\""
     }
 
 }
@@ -120,11 +120,11 @@ class CGFloatList: SerializableAtom {
 
 extension CGLineCap: SerializableOption {
 
-    func isDefault() -> Bool {
+    public func isDefault() -> Bool {
         return self == .butt
     }
 
-    func serialize() -> String {
+    public func serialize() -> String {
         switch self {
         case .round:
             return "round"
@@ -139,11 +139,11 @@ extension CGLineCap: SerializableOption {
 
 extension CGLineJoin: SerializableOption {
 
-    func isDefault() -> Bool {
+    public func isDefault() -> Bool {
         return self == .miter
     }
 
-    func serialize() -> String {
+    public func serialize() -> String {
         switch self {
         case .round:
             return "round"
@@ -158,11 +158,11 @@ extension CGLineJoin: SerializableOption {
 
 extension CGPathFillRule: SerializableOption {
 
-    func isDefault() -> Bool {
+    public func isDefault() -> Bool {
         return self == .winding
     }
 
-    func serialize() -> String {
+    public func serialize() -> String {
         switch self {
         case .evenOdd:
             return "evenodd"
@@ -175,11 +175,11 @@ extension CGPathFillRule: SerializableOption {
 
 extension HorizontalAlignment: SerializableOption {
 
-    func isDefault() -> Bool {
+    public func isDefault() -> Bool {
         return self == .leading
     }
 
-    func serialize() -> String {
+    public func serialize() -> String {
         switch self {
         case .center:
             return "middle"

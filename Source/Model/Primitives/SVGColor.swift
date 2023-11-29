@@ -44,7 +44,7 @@ public class SVGColor: SVGPaint {
         self.init(Int(rgbValue))
     }
 
-    override func serialize(key: String, serializer: Serializer) {
+    override public func serialize(key: String, serializer: Serializer) {
         var prefix = ""
         let transparency = t
         if transparency != 0 {
@@ -110,7 +110,7 @@ extension Color: SerializableAtom {
         return .none
     }
 
-    func serialize() -> String {
+    public func serialize() -> String {
         guard let components = self.cgColor?.components, components.count >= 3 else {
             return "\"n/a\""
         }

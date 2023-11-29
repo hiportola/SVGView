@@ -63,7 +63,9 @@ public class SVGPreserveAspectRatio {
         public func align(size: CGFloat) -> CGFloat {
             return align(outer: size, inner: 0)
         }
-
+        
+        public func isDefault() -> Bool { false }
+        public func serialize() -> String { "" }
     }
 
     public enum Scaling: String, SerializableEnum {
@@ -97,6 +99,8 @@ public class SVGPreserveAspectRatio {
             return fit(size: size, into: rectToFitIn.size)
         }
 
+        public func isDefault() -> Bool { false }
+        public func serialize() -> String { "" }
     }
 
 }
