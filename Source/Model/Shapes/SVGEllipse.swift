@@ -20,10 +20,10 @@ public class SVGEllipse: SVGShape, ObservableObject {
     }
 
     override public func serialize(_ serializer: Serializer) {
-        serializer.add("cx", cx.description, "0")
-            .add("cy", cy.description, "0")
-            .add("rx", rx.description, "0")
-            .add("ry", ry.description, "0")
+        serializer.add("cx", cx, 0)
+            .add("cy", cy, 0)
+            .add("rx", rx, 0)
+            .add("ry", ry, 0)
         super.serialize(serializer)
     }
 
