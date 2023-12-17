@@ -92,7 +92,7 @@ public class Serializer {
 
     @discardableResult func add<S>(_ key: String, _ value: S, _ defVal: S) -> Serializer where S: SerializableAtom, S: Equatable {
         if (value != defVal) {
-            add(key: key, block: value.serialize())
+            add(key: key, block: "\"\(value.serialize())\"")
         }
         return self
     }
